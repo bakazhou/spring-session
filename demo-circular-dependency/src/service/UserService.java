@@ -10,8 +10,7 @@ public class UserService implements DisposableBean {
     private final UserRepository userRepository;
     private final OrderService orderService;
 
-    public UserService(final UserRepository userRepository,
-                       final OrderService orderService) {
+    public UserService(final UserRepository userRepository, final OrderService orderService) {
         this.userRepository = userRepository;
         this.orderService = orderService;
     }
@@ -20,10 +19,12 @@ public class UserService implements DisposableBean {
         System.out.println("=============");
         userRepository.sayHello();
         System.out.println("Hello, I am UserService!");
-        orderService.sayHello();
         System.out.println("=============");
     }
 
+    public void callOrderService() {
+        orderService.sayHello();
+    }
     @Override
     public void destroy() {
         System.out.println("UserService gone!");

@@ -9,8 +9,10 @@ public class Main {
 
         UserService userService = context.getBean(UserService.class);
         userService.sayHello();
+        userService.callOrderService();
 
         OrderService orderService = (OrderService) context.getBean("OrderService");
         orderService.sayHello();
+        orderService.callUserService();
     }
 }

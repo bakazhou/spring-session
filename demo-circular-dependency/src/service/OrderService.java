@@ -19,8 +19,11 @@ public class OrderService implements InitializingBean {
         System.out.println("=============");
         orderRepository.sayHello();
         System.out.println("Hello, I am OrderService!");
-        userService.sayHello();
         System.out.println("=============");
+    }
+
+    public void callUserService() {
+        userService.sayHello();
     }
 
     @Override
