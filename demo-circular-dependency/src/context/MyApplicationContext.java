@@ -1,6 +1,5 @@
 package context;
 
-import annotation.Autowired;
 import annotation.Repository;
 import annotation.Service;
 
@@ -22,7 +21,6 @@ public class MyApplicationContext implements ApplicationContext {
         beanNameMap = new HashMap<>();
         beanClazzMap = new HashMap<>();
         scanAndRegisterBeans();
-        injectDependencies();
         initializeBeans();
         destroyBeans();
     }
@@ -147,32 +145,6 @@ public class MyApplicationContext implements ApplicationContext {
                 } else if (file.isDirectory()) {
                     String subPackageName = packageName + file.getName() + ".";
                     scanClassesInDirectory(file, subPackageName, classNames, annotationClasses);
-                }
-            }
-        }
-    }
-
-    private void injectDependencies() {
-        for (Object bean : beanNameMap.values()) {
-            injectDependencies(bean, List.of(Autowired.class));
-        }
-    }
-
-    private void injectDependencies(Object bean, List<Class<? extends Annotation>> annotationClasses) {
-        Class<?> clazz = bean.getClass();
-        for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
-            for (Class<? extends Annotation> annotationClass : annotationClasses) {
-                if (field.isAnnotationPresent(annotationClass)) {
-                    String beanName = field.getType().getSimpleName();
-                    Object dependency = getBean(beanName);
-                    if (dependency != null) {
-                        try {
-                            field.setAccessible(true);
-                            field.set(bean, dependency);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
             }
         }
